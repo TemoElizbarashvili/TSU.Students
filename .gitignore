@@ -1,0 +1,42 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+/TSUS.UI/TSUS.UI/dist
+/TSUS.UI/TSUS.UI/tmp
+/TSUS.UI/TSUS.UI/out-tsc
+/TSUS.UI/TSUS.UI/bazel-out
+
+# Node
+/TSUS.UI/TSUS.UI/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/TSUS.UI/TSUS.UI/.angular/cache
+.sass-cache/
+/TSUS.UI/TSUS.UI/connect.lock
+/TSUS.UI/TSUS.UI/coverage
+/TSUS.UI/TSUS.UI/libpeerconnection.log
+testem.log
+/TSUS.UI/TSUS.UI/typings
+
+# System files
+.DS_Store
+Thumbs.db
