@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSUS.API", "TSUS.API\TSUS.API.csproj", "{F716DB88-B0BE-4003-B734-3AF1CC26A32F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSUS.API", "TSUS.API\TSUS.API.csproj", "{F716DB88-B0BE-4003-B734-3AF1CC26A32F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSUS.Domain", "TSUS.Domain\TSUS.Domain.csproj", "{71564E69-F09C-497E-BDB4-280C99768C26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSUS.Infrastructure", "TSUS.Infrastructure\TSUS.Infrastructure.csproj", "{754D0E0A-1401-4094-99A9-35F251F92228}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{F716DB88-B0BE-4003-B734-3AF1CC26A32F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F716DB88-B0BE-4003-B734-3AF1CC26A32F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F716DB88-B0BE-4003-B734-3AF1CC26A32F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71564E69-F09C-497E-BDB4-280C99768C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71564E69-F09C-497E-BDB4-280C99768C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71564E69-F09C-497E-BDB4-280C99768C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71564E69-F09C-497E-BDB4-280C99768C26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{754D0E0A-1401-4094-99A9-35F251F92228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{754D0E0A-1401-4094-99A9-35F251F92228}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{754D0E0A-1401-4094-99A9-35F251F92228}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{754D0E0A-1401-4094-99A9-35F251F92228}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
