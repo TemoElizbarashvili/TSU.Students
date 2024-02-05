@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using TSUS.Domain.Entities;
 
 namespace TSUS.Domain.DataBase;
@@ -21,5 +22,24 @@ public class TsusDbContext : DbContext
             .HasConversion(e => e.ToString(), e => (Role)Enum.Parse(typeof(Role), e)).HasMaxLength(15);
         modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
         base.OnModelCreating(modelBuilder);
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    {
+        ValidateEntities();
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void ValidateEntities()
+    {
+        var entities = ChangeTracker.Entries()
+            .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
+            .Select(e => e.Entity);
+
+        foreach (var entity in entities)
+        {
+            var validationContext = new ValidationContext(entity);
+            Validator.ValidateObject(entity, validationContext, validateAllProperties: true);
+        }
     }
 }

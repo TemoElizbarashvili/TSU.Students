@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Security.AccessControl;
+using Microsoft.EntityFrameworkCore;
 using TSUS.Domain.DataBase;
 using TSUS.Domain.Entities;
+using TSUS.Infrastructure.ControlFlags;
 using TSUS.Infrastructure.Repositories.Contracts;
 
 namespace TSUS.Infrastructure.Repositories;
@@ -9,12 +11,17 @@ public class DepartmentRepository(TsusDbContext context) : IRepository<Departmen
 {
     private readonly TsusDbContext _context = context;
 
-    public async Task<IEnumerable<Department>> GetAllAsync()
-        => await _context.Departments.Include(x => x.Faculty).ToListAsync();
+    public async Task<IEnumerable<Department>> GetAllAsync(BaseControlFlags flags = BaseControlFlags.Basic)
+        => flags switch
+        {
+            BaseControlFlags.Basic => await _context.Departments.ToListAsync(),
+            BaseControlFlags.All => await _context.Departments.Include(d => d.Faculty).ToListAsync(),
+            _ => await _context.Departments.ToListAsync()
+        };
 
     public async Task AddSingleAsync(Department model)
         => await _context.AddAsync(model);
-    
+
 
     public Task AddMultipleAsync(IEnumerable<Department> models)
     {

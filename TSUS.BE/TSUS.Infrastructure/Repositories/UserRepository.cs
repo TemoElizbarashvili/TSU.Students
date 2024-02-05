@@ -7,22 +7,27 @@ using Microsoft.IdentityModel.Tokens;
 using TSUS.Domain.DataBase;
 using TSUS.Domain.Entities;
 using TSUS.Infrastructure.Repositories.Contracts;
+using TSUS.Infrastructure.ControlFlags;
 
 namespace TSUS.Infrastructure.Repositories;
 
 public class UserRepository(TsusDbContext dbContext, IConfiguration configuration) : IRepository<User>
 {
-    private readonly TsusDbContext _dbContext = dbContext;
+    private readonly TsusDbContext _context = dbContext;
     private readonly IConfiguration _configuration = configuration;
-    public Task<IEnumerable<User>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
+
+    public async Task<IEnumerable<User>> GetAllAsync(BaseControlFlags flags = BaseControlFlags.Basic)
+        => flags switch
+        {
+            BaseControlFlags.Basic => await _context.Users.ToListAsync(),
+            BaseControlFlags.All => await _context.Users.Include(u => u.Department).ToListAsync(),
+            _ => await _context.Users.ToListAsync()
+        };
 
     public async Task AddSingleAsync(User model)
     {
-        await _dbContext.Users.AddAsync(model);
-        await _dbContext.SaveChangesAsync();
+        await _context.Users.AddAsync(model);
+        await _context.SaveChangesAsync();
     }
 
     public Task AddMultipleAsync(IEnumerable<User> models)
@@ -41,10 +46,10 @@ public class UserRepository(TsusDbContext dbContext, IConfiguration configuratio
     }
 
     public async Task<User?> GetByIdAsync(int id)
-        => await _dbContext.Users.FirstOrDefaultAsync(user => user.UserId == id);
+        => await _context.Users.FirstOrDefaultAsync(user => user.UserId == id);
 
     public async Task<User?> GetByEmailAsync(string email)
-        => await _dbContext.Users.FirstOrDefaultAsync(user => user.Email.Equals(email));
+        => await _context.Users.FirstOrDefaultAsync(user => user.Email.Equals(email));
 
     public string CreateToken(User user)
     {

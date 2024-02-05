@@ -15,6 +15,7 @@ public class Subject
 
     //Relations
     public List<Lecturer>? Lecturers { get; set; }
+    public List<Attachment>? Attachments { get; set; }
     [ForeignKey("Department")]
     public int DepartmentId { get; set; }
     public Department? Department { get; set; } 

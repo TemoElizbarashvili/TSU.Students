@@ -8,6 +8,8 @@ public class User
 {
     public int UserId { get; set; }
     [StringLength(50)]
+    //TODO: Uncomment when Testing ends
+    //[RegularExpression(@"^[a-zA-Z0-9._-]+@([a-zA-Z0-9-]+\.)?tsu\.edu\.ge$")]
     public string Email { get; set; } = default!;
     [StringLength(50)]
     public string UserName { get; set; } = default!;
@@ -41,5 +43,3 @@ public enum Role
     Moderator = 1,
     Admin = 2
 }
-
-

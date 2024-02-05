@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TSUS.Domain.Dtos;
 using TSUS.Domain.Entities;
@@ -13,7 +14,6 @@ public class DepartmentsController(IUnitOfWork uow) : ControllerBase
     private readonly IUnitOfWork _unitOfWork = uow;
 
     [HttpGet]
-    [Authorize]
     public async Task<ActionResult<List<Department>>> GetAll()
         => Ok(await _unitOfWork.DepartmentRepository.GetAllAsync());
 

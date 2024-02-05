@@ -1,4 +1,5 @@
-﻿using TSUS.Domain.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using TSUS.Domain.DataBase;
 using TSUS.Domain.Entities;
 using TSUS.Infrastructure.Repositories.Contracts;
 
@@ -7,10 +8,9 @@ namespace TSUS.Infrastructure.Repositories;
 public class FacultyRepository(TsusDbContext context) : IRepository<Faculty>
 {
     private readonly TsusDbContext _context = context;
-    public Task<IEnumerable<Faculty>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
+
+    public async Task<IEnumerable<Faculty>> GetAllAsync()
+        => await _context.Faculties.ToListAsync();
 
     public async Task AddSingleAsync(Faculty model)
         => await _context.Faculties.AddAsync(model);
