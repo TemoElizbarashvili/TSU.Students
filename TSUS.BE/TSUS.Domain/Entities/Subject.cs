@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TSUS.Domain.Entities;
 
@@ -14,6 +15,7 @@ public class Subject
 
     //Relations
     public List<Lecturer>? Lecturers { get; set; }
+    [ForeignKey("Department")]
     public int DepartmentId { get; set; }
     public Department? Department { get; set; } 
 }

@@ -19,6 +19,7 @@ public class TsusDbContext : DbContext
     {
         modelBuilder.Entity<User>().Property(e => e.Role)
             .HasConversion(e => e.ToString(), e => (Role)Enum.Parse(typeof(Role), e)).HasMaxLength(15);
+        modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
         base.OnModelCreating(modelBuilder);
     }
 }

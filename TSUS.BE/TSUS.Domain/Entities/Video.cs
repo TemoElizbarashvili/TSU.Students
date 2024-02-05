@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TSUS.Domain.Entities;
 
@@ -11,6 +12,7 @@ public class Video
     public string Link { get; set; } = default!;
 
     //Relations
+    [ForeignKey("Subject")]
     public int SubjectId { get; set; }
-    public Subject Subject { get; set; } = default!;
+    public Subject? Subject { get; set; }
 }
