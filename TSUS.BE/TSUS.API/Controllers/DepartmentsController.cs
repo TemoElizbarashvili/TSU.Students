@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TSUS.Domain.Dtos;
 using TSUS.Domain.Entities;
 using TSUS.Infrastructure.UOW.Contract;
@@ -9,9 +7,10 @@ namespace TSUS.API.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class DepartmentsController(IUnitOfWork uow) : ControllerBase
+public class DepartmentsController(IUnitOfWork uow, IConfiguration configuration) : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork = uow;
+    private readonly IConfiguration _configuration = configuration;
 
     [HttpGet]
     public async Task<ActionResult<List<Department>>> GetAll()
@@ -32,5 +31,6 @@ public class DepartmentsController(IUnitOfWork uow) : ControllerBase
         }
         return Ok();
     }
+
 }
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TSUS.Domain.Entities;
 using TSUS.Infrastructure.Repositories;
 
 namespace TSUS.API.Controllers;

@@ -8,6 +8,8 @@ using TSUS.Domain.DataBase;
 using TSUS.Domain.Entities;
 using TSUS.Infrastructure.Repositories.Contracts;
 using TSUS.Infrastructure.ControlFlags;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace TSUS.Infrastructure.Repositories;
 
@@ -72,4 +74,45 @@ public class UserRepository(TsusDbContext dbContext, IConfiguration configuratio
 
     public string HashPassword(string password)
         => BCrypt.Net.BCrypt.HashPassword(password);
+
+    public async Task<bool> SendVerifyMail(int verifyCode, string mail)
+    {
+        var apiKey = _configuration.GetSection("EmailAPI:APIKey").Value;
+        var client = new SendGridClient(apiKey);
+        var from = new EmailAddress("projectsmaildev@gmail.com", "TSU Students Portal");
+        var subject = "Verification code";
+        var to = new EmailAddress($"{mail}", $"{mail}");
+        var plainTextContent = $"Your Verification Code is {verifyCode}";
+        var htmlContent = $@"
+<!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""UTF-8"">
+    <meta http-equiv=""X-UA-Compatible"" content=""IE=edge"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>Email Verification</title>
+</head>
+<body>
+    <div style=""font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;"">
+        <h2 style=""color: #333;"">Email Verification</h2>
+        <p style=""margin-bottom: 20px; line-height: 1.6; color: #666;"">Hello,</p>
+        <p style=""margin-bottom: 20px; line-height: 1.6; color: #666;"">Your Verification Code is <strong style=""font-size: 1.5rem;"">{verifyCode}<strong></p>
+        <p style=""margin-top: 20px; margin-bottom: 20px; line-height: 1.6; color: #666;"">If you did not request this verification, please ignore this email.</p>
+    </div>
+</body>
+</html>";
+        var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+        var response = await client.SendEmailAsync(msg);
+
+        return response.IsSuccessStatusCode;
+    }
+
+    public async Task Verify(string email)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+        if (user == null)
+            throw new Exception("Provided email is incorrect");
+        user.IsVerified = true;
+        _context.Users.Update(user);
+    }
 }

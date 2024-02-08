@@ -15,12 +15,14 @@ public class TsusDbContext : DbContext
     public DbSet<Department> Departments => Set<Department>();
     public DbSet<Subject> Subjects => Set<Subject>();
     public DbSet<Video> Videos => Set<Video>();
+    public DbSet<VerifyCodes> VerifyCodes => Set<VerifyCodes>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().Property(e => e.Role)
             .HasConversion(e => e.ToString(), e => (Role)Enum.Parse(typeof(Role), e)).HasMaxLength(15);
         modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+        modelBuilder.Entity<VerifyCodes>().HasKey(c => new {c.Email, c.VerifyCode});
         base.OnModelCreating(modelBuilder);
     }
 
