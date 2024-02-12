@@ -2,15 +2,15 @@
 using TSUS.Domain.DataBase;
 using TSUS.Domain.Entities;
 
-namespace TSUS.Infrastructure.Repositories;
+namespace TSUS.Infrastructure.Services;
 
-public class VerifyCodeRepository(TsusDbContext context)
+public class VerifyCodeService(TsusDbContext context)
 {
     private readonly TsusDbContext _context = context;
 
     public async Task AddSingleAsync(VerifyCodes model)
         => await _context.VerifyCodes.AddAsync(model);
-    
+
     public async Task<bool> VerifyAsync(string mail, int code)
         => await _context.VerifyCodes.FirstOrDefaultAsync(c => c.Email.Equals(mail) && c.VerifyCode == code && c.Attempt <= 3) != null;
 

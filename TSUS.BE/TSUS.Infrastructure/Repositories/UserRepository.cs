@@ -10,6 +10,7 @@ using TSUS.Infrastructure.Repositories.Contracts;
 using TSUS.Infrastructure.ControlFlags;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using TSUS.Domain.Dtos;
 
 namespace TSUS.Infrastructure.Repositories;
 
@@ -50,6 +51,11 @@ public class UserRepository(TsusDbContext dbContext, IConfiguration configuratio
     public async Task<User?> GetByIdAsync(int id)
         => await _context.Users.FirstOrDefaultAsync(user => user.UserId == id);
 
+    public Task<PagedListDto<User>> PagedListAsync(int limit, int lastEntityId)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<User?> GetByEmailAsync(string email)
         => await _context.Users.FirstOrDefaultAsync(user => user.Email.Equals(email));
 
@@ -72,14 +78,30 @@ public class UserRepository(TsusDbContext dbContext, IConfiguration configuratio
         return jwtToken;
     }
 
-    public string HashPassword(string password)
+    public static string HashPassword(string password)
         => BCrypt.Net.BCrypt.HashPassword(password);
 
     public async Task<bool> SendVerifyMail(int verifyCode, string mail)
     {
         var apiKey = _configuration.GetSection("EmailAPI:APIKey").Value;
         var client = new SendGridClient(apiKey);
-        var from = new EmailAddress("projectsmaildev@gmail.com", "TSU Students Portal");
+        var msg = CreateMessage(verifyCode, mail);
+        var response = await client.SendEmailAsync(msg);
+        return response.IsSuccessStatusCode;
+    }
+   
+    public async Task Verify(string email)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+        if (user == null)
+            throw new Exception("Provided email is incorrect");
+        user.IsVerified = true;
+        _context.Users.Update(user);
+    }
+
+    private SendGridMessage CreateMessage(int verifyCode, string mail)
+    {
+        var from = new EmailAddress(_configuration.GetSection("EmailAPI:Email").Value, "TSU Students Portal");
         var subject = "Verification code";
         var to = new EmailAddress($"{mail}", $"{mail}");
         var plainTextContent = $"Your Verification Code is {verifyCode}";
@@ -100,19 +122,7 @@ public class UserRepository(TsusDbContext dbContext, IConfiguration configuratio
         <p style=""margin-top: 20px; margin-bottom: 20px; line-height: 1.6; color: #666;"">If you did not request this verification, please ignore this email.</p>
     </div>
 </body>
-</html>";
-        var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-        var response = await client.SendEmailAsync(msg);
-
-        return response.IsSuccessStatusCode;
-    }
-
-    public async Task Verify(string email)
-    {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
-        if (user == null)
-            throw new Exception("Provided email is incorrect");
-        user.IsVerified = true;
-        _context.Users.Update(user);
+</html>"; ;
+        return MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
     }
 }

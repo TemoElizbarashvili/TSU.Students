@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TSUS.Domain.DataBase;
+using TSUS.Domain.Dtos;
 using TSUS.Domain.Entities;
 using TSUS.Infrastructure.ControlFlags;
 using TSUS.Infrastructure.Repositories.Contracts;
@@ -38,6 +39,11 @@ public class DepartmentRepository(TsusDbContext context) : IRepository<Departmen
     }
 
     public Task<Department?> GetByIdAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<PagedListDto<Department>> PagedListAsync(int limit, int lastEntityId)
     {
         throw new NotImplementedException();
     }

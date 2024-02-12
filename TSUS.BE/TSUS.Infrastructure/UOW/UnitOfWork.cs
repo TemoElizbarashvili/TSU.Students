@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using TSUS.Domain.DataBase;
 using TSUS.Infrastructure.Repositories;
+using TSUS.Infrastructure.Services;
 using TSUS.Infrastructure.UOW.Contract;
 
 namespace TSUS.Infrastructure.UOW;
@@ -13,7 +14,7 @@ public class UnitOfWork(TsusDbContext context, IConfiguration configuration) : I
     public UserRepository UserRepository { get; set; } = new(context, configuration);
     public FacultyRepository FacultyRepository { get; set; } = new(context);
     public DepartmentRepository DepartmentRepository { get; set; } = new(context);
-    public VerifyCodeRepository VerifyCodeRepository { get; set; } = new(context);
+    public VerifyCodeService VerifyCodeRepository { get; set; } = new(context);
     public async Task SaveChangesAsync()
         => await _context.SaveChangesAsync();
 

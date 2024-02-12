@@ -13,7 +13,7 @@ public class AuthController(IUnitOfWork uow) : ControllerBase
     [HttpPost("Registration")]
     public async Task<IActionResult> RegisterUserAsync(RegistrationDto model)
     {
-        model.Password = _unitOfWork.UserRepository.HashPassword(model.Password);
+        model.Password = Infrastructure.Repositories.UserRepository.HashPassword(model.Password);
         var user = Domain.Entities.User.Create(model);
         try
         {
