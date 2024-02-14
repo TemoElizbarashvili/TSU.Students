@@ -5,7 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using TSUS.Domain.DataBase;
-using TSUS.Infrastructure.Repositories;
+using TSUS.Infrastructure.Services;
+using TSUS.Infrastructure.Services.contracts;
 using TSUS.Infrastructure.UOW;
 using TSUS.Infrastructure.UOW.Contract;
 
@@ -56,8 +57,8 @@ builder.Services.AddSwaggerGen(c =>
 
 
 builder.Services.AddScoped<TsusDbContext>();
-builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IMailService, MailService>();
 
 var app = builder.Build();
 

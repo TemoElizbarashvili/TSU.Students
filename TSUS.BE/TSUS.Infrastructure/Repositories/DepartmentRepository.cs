@@ -28,7 +28,7 @@ public class DepartmentRepository(TsusDbContext context) : IRepository<Departmen
         throw new NotImplementedException();
     }
 
-    public Task UpdateAsync(Department model)
+    public void UpdateAsync(Department model)
     {
         throw new NotImplementedException();
     }

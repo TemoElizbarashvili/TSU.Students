@@ -43,6 +43,5 @@ public class UnitOfWork(TsusDbContext context, IConfiguration configuration) : I
     {
         await _transaction!.DisposeAsync();
         await _context.DisposeAsync();
-
     }
 }
