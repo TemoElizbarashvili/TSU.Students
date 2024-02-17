@@ -14,6 +14,7 @@ public class User
     [StringLength(50)]
     public string UserName { get; set; } = default!;
     [StringLength(250)]
+    [MinLength(8)]
     public string Password { get; set; } = default!;
     public byte[]? ProfilePicture { get; set; }
     public Role Role { get; set; }

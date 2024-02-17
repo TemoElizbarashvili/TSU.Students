@@ -1,0 +1,186 @@
+.background {
+    height: 100vh;
+    width: 100%;
+    background-image: url('../../assets/images/TSU_Building.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.auth_container {
+    background-color: #000000b0;
+    height: inherit;
+    display: flex;
+
+    &__box {
+        width: 35%;
+        min-width: 500px;
+        min-height: 30%;
+        height: 60%;
+        background-color: #1f1f1fef;
+        padding: 40px;
+        margin: auto;
+        border-radius: 30px;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    padding: 10px;
+    height: 70%;
+    justify-content: center;
+}
+
+.input {
+    background-color: #000000b0;
+    min-height: 50px;
+    border: 0;
+    padding: 10px;
+    color: rgb(255, 255, 255);
+    font-size: 1.1rem;
+    border-radius: 10px;
+    margin: 5px 0;
+}
+
+.email {
+    margin-bottom: 10px;
+}
+
+label {
+    margin: 5px;
+    margin-left: 5px;
+}
+
+.submit_button{
+    width: 150px;
+    min-width: 100px;
+    border-radius: 20px;
+    padding: 10px;
+    align-self: center;
+    margin: 20px 0;
+    color: white;
+    background-color: #000000;
+    border: 0;
+    min-height: 30px;
+    height: 50px;
+}
+
+.submit_button:hover {
+    background-color: #a19b9ba1;
+    color: black;
+    font-weight: 700;
+}
+
+.submit_button:disabled {
+    background-color: #313131;
+}
+
+.submit_button:disabled:hover {
+    background-color: #313131;
+    color: white;
+    font-weight: 500;
+}
+
+.options {
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.sign_up {
+    cursor: pointer;
+    text-decoration: underline;
+    width: fit-content;
+}
+
+.sign_up:hover {
+    color: #bebebe;
+}
+
+.scrollable {
+    overflow-y: scroll;
+    border-radius: 30px 0 0 30px;
+}
+
+.upload {
+    min-height: 50px;
+    border: 0;
+    padding: 5px;
+    color: rgb(255, 255, 255);
+    font-size: 1.1rem;
+    border-radius: 10px;
+    margin: 5px 0;
+}
+
+.register {
+    height: fit-content;
+}
+
+.upload_profile {
+  display: inline-block;
+  cursor: pointer;
+  padding: 10px 20px;
+  color: white;
+  background-color: #000000;
+  border-radius: 5px;
+  border: none;
+  width: 200px;
+  min-width: 200px;
+}
+.upload_profile input[type="file"] {
+  display: none;
+}
+
+.custom-select {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-select select {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #0000007e;
+  border-radius: 10px 10px 0 0;
+  appearance: none; 
+  background-color: #000000b0;
+  color: white;
+  min-height: 50px;
+}
+
+
+.custom-select .selected-option {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px;
+  pointer-events: none; 
+}
+
+.custom-select .arrow-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 30px;
+  line-height: 50px;
+  pointer-events: none;
+  text-align: center;
+  color: #999; 
+}
+
+.custom-select select option {
+  background-color: rgba(0, 0, 0, 0.822);
+  color: white;
+}
+
+.custom-select select option:checked {
+  background-color: #000000;
+  color: #fff;
+}

@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body{
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: white;
+}
+
+.title {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.danger-text{
+    color: red;
+    text-align: center;
+    margin: 8px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 30px;
+}
+
+::-webkit-scrollbar-track:hover {
+    background-color: #1414145e;
+  }
+
+::-webkit-scrollbar-thumb {
+  background-color: #141414;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #000000;
+}
