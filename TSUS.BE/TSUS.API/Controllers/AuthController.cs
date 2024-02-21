@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TSUS.Domain.Dtos;
 using TSUS.Infrastructure.Repositories;
 using TSUS.Infrastructure.Services.contracts;
@@ -21,12 +22,16 @@ public class AuthController(IUnitOfWork uow, IMailService mailService) : Control
         try
         {
             await _unitOfWork.UserRepository?.AddSingleAsync(user)!;
+            await _unitOfWork.SaveChangesAsync();
+        }
+        catch (DbUpdateException ex)
+        {
+            return BadRequest("This email is already used!");
         }
         catch
         {
             return BadRequest();
         }
-        await _unitOfWork.SaveChangesAsync();
         return Ok();
     }
 

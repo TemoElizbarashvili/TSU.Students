@@ -11,11 +11,13 @@ public class Subject
     public int Credit { get; set; }
     public bool IsMandatory { get; set; }
     public int? Semester { get; set; }
+    [StringLength(Int32.MaxValue)]
     public string? Description { get; set; }
 
     //Relations
     public List<Lecturer>? Lecturers { get; set; }
     public List<Attachment>? Attachments { get; set; }
+    public List<Subject>? Prerequisites { get; set; }
     [ForeignKey("Department")]
     public int DepartmentId { get; set; }
     public Department? Department { get; set; } 

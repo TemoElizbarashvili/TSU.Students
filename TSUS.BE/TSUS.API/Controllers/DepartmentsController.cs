@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TSUS.Domain.Dtos;
 using TSUS.Domain.Entities;
+using TSUS.Domain.ReadModels;
+using TSUS.Infrastructure.ControlFlags;
 using TSUS.Infrastructure.UOW.Contract;
 
 namespace TSUS.API.Controllers;
@@ -13,8 +15,13 @@ public class DepartmentsController(IUnitOfWork uow, IConfiguration configuration
     private readonly IConfiguration _configuration = configuration;
 
     [HttpGet]
-    public async Task<ActionResult<List<Department>>> GetAll()
-        => Ok(await _unitOfWork.DepartmentRepository.GetAllAsync());
+    public async Task<ActionResult<List<DepartmentRm>>> GetAll(BaseControlFlags controlFlags = BaseControlFlags.Basic)
+        => Ok((await _unitOfWork.DepartmentRepository.GetAllAsync(controlFlags)).Select(d => new DepartmentRm()
+        {
+            Id = d.DepartmentId,
+            Name = d.Name,
+            Department = d.Faculty?.Name
+        }));
 
     [HttpPost("Add")]
     public async Task<IActionResult> AddAsync(DepartmentDto model)

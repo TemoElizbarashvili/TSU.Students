@@ -13,6 +13,5 @@ public record RegistrationDto()
     [Required] [StringLength(25)] 
     public string Password { get; set; } = string.Empty;
 
-    public byte[]? ProfilePicture { get; set; }
     public int DepartmentId { get; set; }
 }

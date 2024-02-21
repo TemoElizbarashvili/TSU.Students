@@ -3,15 +3,17 @@
         <div class="auth_container__box" [ngClass]="{'scrollable': isRegistering}">
             @if(!isRegistering) {
                 <p class="title"> SIGN IN </p>
-                <form class="form login" [formGroup]="loginForm">
+                <form class="form login" [formGroup]="loginForm" (submit)="onLoginSubmit()">
+                    @if(!isLoginValid) {
+                        <p class="danger-text"> *Mail or Password is invalid!</p>
+                    }
                     <label for="email">Email</label>
                     <input type="text" class="input email" placeholder="Email" name="email" formControlName="email">
                     <label for="password">Password</label>
                     <input type="password" class="input password" placeholder="Password" name="password" formControlName="password">
-                    @if(loginForm.invalid && loginForm.dirty) {
-                        <p class="danger-text">Mail or Password is invalid!</p>
-                    }
-                    <button type="button" class="submit_button" [disabled]="loginForm.invalid">SIGN IN</button>
+                    <button type="submit" class="submit_button" [disabled]="loginForm.invalid" title="enter fields above correctly!">
+                        SIGN IN
+                    </button>
                 </form>
                 <div class="options">
                     <p>Do not have account?</p>
@@ -20,48 +22,53 @@
             }
             @else {
                 <p class="title"> REGISTER </p>
-                <form class="form register">
-                    <label for="email">Email</label>
-                    <input type="text" class="input" placeholder="Email" name="email" required (ngModel)="registerForm.email" #email="ngModel" pattern="^[a-zA-Z0-9._-]+@([a-zA-Z0-9-]+\.)?tsu\.edu\.ge$">
-                    @if(email.invalid && email.dirty){
-                        <span class="danger-text"> *This is not Valid "TSU" email</span>
-                    }
-                    <label for="email">User name</label>
-                    <input type="text" class="input username" placeholder="username" name="username" required (ngModel)="registerForm.userName" #userName="ngModel">
-                    @if(userName.invalid && userName.dirty){
-                        <span class="danger-text"> *User name is mandatory</span>
-                    }
-                    <label for="password">Password</label>
-                    <input type="password" class="input" placeholder="password" name="password" required minlength="8" (ngModel)="registerForm.password" #password="ngModel">
-                    @if(password.invalid && password.dirty){
-                        <span class="danger-text"> *Password must be at least 8 character</span>
-                    }
-                    <label for="email">Confirm password</label>
-                    <input type="password" class="input" placeholder="Confirm password" name="ConfirmPassword" required (ngModel)="confirmPassword" #ConfirmPassword="ngModel">
-                    @if((password.value != ConfirmPassword.value) && (password.dirty && ConfirmPassword.dirty)){
-                        <span class="danger-text"> *Passwords must match</span>
-                    }
-                    <label>Profile Picture</label>
-                    <label for="fileInput" class="upload_profile">
-                        <span>Choose Profile Picture</span>
-                        <input type="file" id="fileInput" (click)="myInputFile.value = ''" (change)="onFileSelected($event)" #myInputFile/>
-                    </label>
-                    <label>Choose your Department</label>
-                    <div class="custom-select">
-                        <select (change)="onSelectChange($event)">
-                          <option value="option1">1</option>
-                          <option value="option2">2</option>
-                          <option value="option3">3</option>
-                        </select>
-                        <span class="selected-option">{{ selectedOption }}</span>
-                        <div class="arrow-icon">&#9660;</div>
+                @if(isVerifyingMail){
+                    <form class="form" (submit)="onVerifySubmit()">
+                        <p class="mail_text">We sent you 6 digit code to - {{registerForm.email}} -, Please enter the code you received to verify it is you!</p>
+                        <label for="code">Your Code</label>
+                        <input type="number" class="input" placeholder="Code" name="code" required [(ngModel)]="emailCode" #code="ngModel" min=100000 max=999999>
+                        <button type="submit" class="submit_button" [disabled]="code.invalid">Verify</button>
+                    </form>
+                }
+                @else {
+                    <form class="form register" (submit)="onRegisterSubmit()">
+                        <label for="email">Email</label>
+                        <!-- <input type="text" class="input" placeholder="Email" name="email" required (ngModel)="registerForm.email" #email="ngModel"  pattern="^[a-zA-Z0-9._-]+@([a-zA-Z0-9-]+\.)?tsu\.edu\.ge$"> -->
+                        <input type="text" class="input" placeholder="Email" name="email" required [(ngModel)]="registerForm.email" #email="ngModel">
+                        @if(email.invalid && email.dirty){
+                            <span class="danger-text"> *This is not Valid "TSU" email</span>
+                        }
+                        <label for="email">User name</label>
+                        <input type="text" class="input username" placeholder="username" name="username" required [(ngModel)]="registerForm.userName" #userName="ngModel">
+                        @if(userName.invalid && userName.dirty){
+                            <span class="danger-text"> *User name is mandatory</span>
+                        }
+                        <label for="password">Password</label>
+                        <input type="password" class="input" placeholder="password" name="password" required minlength="8" [(ngModel)]="registerForm.password" #password="ngModel">
+                        @if(password.invalid && password.dirty){
+                            <span class="danger-text"> *Password must be at least 8 character</span>
+                        }
+                        <label for="email">Confirm password</label>
+                        <input type="password" class="input" placeholder="Confirm password" name="ConfirmPassword" required (ngModel)="confirmPassword" #ConfirmPassword="ngModel">
+                        @if((password.value != ConfirmPassword.value) && (password.dirty && ConfirmPassword.dirty)){
+                            <span class="danger-text"> *Passwords must match</span>
+                        }
+                        <label>Choose your Department</label>
+                        <div class="custom-select">
+                            <select (change)="onSelectChange($event)">
+                                @for(department of departments; track departments) {
+                                    <option value={{department.id}}>{{ department.name }}</option>
+                                }
+                            </select>
+                            <div class="arrow-icon">&#9660;</div>
+                        </div>
+                        <button type="submit" class="submit_button" [disabled]="email.invalid && password.invalid && userName.invalid">SIGN UP</button>
+                    </form>
+                    <div class="options">
+                        <p>Already have account?</p>
+                        <p class="sign_up" (click)='onModeChange()'>SIGN IN</p>
                     </div>
-                    <button type="button" class="submit_button" [disabled]="email.invalid && password.invalid && userName.invalid">SIGN UP</button>
-                </form>
-                <div class="options">
-                    <p>Already have account?</p>
-                    <p class="sign_up" (click)='onModeChange()'>SIGN IN</p>
-                </div>
+                }
             }
         </div>
     </div>

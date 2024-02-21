@@ -29,7 +29,7 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/TSUS.UI/TSUS.UI/.angular/cache
+/TSUS.UI/TSUS.UI/.angular/cache/
 .sass-cache/
 /TSUS.UI/TSUS.UI/connect.lock
 /TSUS.UI/TSUS.UI/coverage

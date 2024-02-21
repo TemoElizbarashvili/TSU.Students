@@ -16,7 +16,6 @@ public class User
     [StringLength(250)]
     [MinLength(8)]
     public string Password { get; set; } = default!;
-    public byte[]? ProfilePicture { get; set; }
     public Role Role { get; set; }
     public bool IsVerified { get; set; }
 
@@ -33,7 +32,6 @@ public class User
             UserName = model.UserName,
             Password = model.Password,
             IsVerified = false,
-            ProfilePicture = model.ProfilePicture,
             Role = Entities.Role.User
         };
 }
