@@ -7,6 +7,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 import { AuthService } from './services/auth.service';
 import { DepartmentsService } from './services/departments.service';
 import { FacultiesService } from './services/faculties.service';
+import { UsersService } from './services/users.service';
 
 /**
  * Module that provides all services and configuration.
@@ -19,6 +20,7 @@ import { FacultiesService } from './services/faculties.service';
     AuthService,
     DepartmentsService,
     FacultiesService,
+    UsersService,
     ApiConfiguration
   ],
 })

@@ -9,12 +9,12 @@ import { RequestBuilder } from '../../request-builder';
 import { BaseControlFlags } from '../../models/base-control-flags';
 import { DepartmentRm } from '../../models/department-rm';
 
-export interface DepartmentsGet$Params {
+export interface DepartmentsGet$Json$Params {
   controlFlags?: BaseControlFlags;
 }
 
-export function departmentsGet(http: HttpClient, rootUrl: string, params?: DepartmentsGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DepartmentRm>>> {
-  const rb = new RequestBuilder(rootUrl, departmentsGet.PATH, 'get');
+export function departmentsGet$Json(http: HttpClient, rootUrl: string, params?: DepartmentsGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DepartmentRm>>> {
+  const rb = new RequestBuilder(rootUrl, departmentsGet$Json.PATH, 'get');
   if (params) {
     rb.query('controlFlags', params.controlFlags, {});
   }
@@ -29,4 +29,4 @@ export function departmentsGet(http: HttpClient, rootUrl: string, params?: Depar
   );
 }
 
-departmentsGet.PATH = '/Departments';
+departmentsGet$Json.PATH = '/Departments';

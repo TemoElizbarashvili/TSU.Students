@@ -13,14 +13,14 @@ import { authChangePasswordPut } from '../fn/auth/auth-change-password-put';
 import { AuthChangePasswordPut$Params } from '../fn/auth/auth-change-password-put';
 import { authEmailPost } from '../fn/auth/auth-email-post';
 import { AuthEmailPost$Params } from '../fn/auth/auth-email-post';
-import { authLoginPost } from '../fn/auth/auth-login-post';
-import { AuthLoginPost$Params } from '../fn/auth/auth-login-post';
+import { authLoginPost$Json } from '../fn/auth/auth-login-post-json';
+import { AuthLoginPost$Json$Params } from '../fn/auth/auth-login-post-json';
 import { authLoginPost$Plain } from '../fn/auth/auth-login-post-plain';
 import { AuthLoginPost$Plain$Params } from '../fn/auth/auth-login-post-plain';
 import { authRegistrationPost } from '../fn/auth/auth-registration-post';
 import { AuthRegistrationPost$Params } from '../fn/auth/auth-registration-post';
-import { authRequestPasswordResetGet } from '../fn/auth/auth-request-password-reset-get';
-import { AuthRequestPasswordResetGet$Params } from '../fn/auth/auth-request-password-reset-get';
+import { authRequestPasswordResetGet$Json } from '../fn/auth/auth-request-password-reset-get-json';
+import { AuthRequestPasswordResetGet$Json$Params } from '../fn/auth/auth-request-password-reset-get-json';
 import { authRequestPasswordResetGet$Plain } from '../fn/auth/auth-request-password-reset-get-plain';
 import { AuthRequestPasswordResetGet$Plain$Params } from '../fn/auth/auth-request-password-reset-get-plain';
 import { authVerifyPut } from '../fn/auth/auth-verify-put';
@@ -84,22 +84,22 @@ export class AuthService extends BaseService {
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `authLoginPost()` instead.
+   * To access only the response body, use `authLoginPost$Json()` instead.
    *
    * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
-  authLoginPost$Response(params?: AuthLoginPost$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
-    return authLoginPost(this.http, this.rootUrl, params, context);
+  authLoginPost$Json$Response(params?: AuthLoginPost$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+    return authLoginPost$Json(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `authLoginPost$Response()` instead.
+   * To access the full response (for headers, for example), `authLoginPost$Json$Response()` instead.
    *
    * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
-  authLoginPost(params?: AuthLoginPost$Params, context?: HttpContext): Observable<string> {
-    return this.authLoginPost$Response(params, context).pipe(
+  authLoginPost$Json(params?: AuthLoginPost$Json$Params, context?: HttpContext): Observable<string> {
+    return this.authLoginPost$Json$Response(params, context).pipe(
       map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
@@ -181,22 +181,22 @@ export class AuthService extends BaseService {
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `authRequestPasswordResetGet()` instead.
+   * To access only the response body, use `authRequestPasswordResetGet$Json()` instead.
    *
    * This method doesn't expect any request body.
    */
-  authRequestPasswordResetGet$Response(params?: AuthRequestPasswordResetGet$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
-    return authRequestPasswordResetGet(this.http, this.rootUrl, params, context);
+  authRequestPasswordResetGet$Json$Response(params?: AuthRequestPasswordResetGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+    return authRequestPasswordResetGet$Json(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `authRequestPasswordResetGet$Response()` instead.
+   * To access the full response (for headers, for example), `authRequestPasswordResetGet$Json$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  authRequestPasswordResetGet(params?: AuthRequestPasswordResetGet$Params, context?: HttpContext): Observable<number> {
-    return this.authRequestPasswordResetGet$Response(params, context).pipe(
+  authRequestPasswordResetGet$Json(params?: AuthRequestPasswordResetGet$Json$Params, context?: HttpContext): Observable<number> {
+    return this.authRequestPasswordResetGet$Json$Response(params, context).pipe(
       map((r: StrictHttpResponse<number>): number => r.body)
     );
   }

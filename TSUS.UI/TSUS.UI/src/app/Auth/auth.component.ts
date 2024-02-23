@@ -14,7 +14,7 @@ import { BaseControlFlags, DepartmentRm, LoginDto, RegistrationDto } from "../ap
     providers: [DepartmentsService, AuthService],
     styleUrl: './auth.component.scss'
   })
-export class AuthComponent implements OnInit{
+export class AuthComponent implements OnInit {
     isRegistering: boolean = false;
     isVerifyingMail: boolean = false;
     isLoginValid: boolean = true;
@@ -33,12 +33,11 @@ export class AuthComponent implements OnInit{
     emailCode: number = 0;
 
     constructor(private formBuilder: FormBuilder, private departmentService: DepartmentsService, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
-        this.departmentService.departmentsGet({controlFlags: BaseControlFlags.$0})
-            .subscribe((data) => this.departments = data);
+        this.departmentService.departmentsGet$Json({controlFlags: BaseControlFlags.$0})
+            .subscribe((data: DepartmentRm[]) => this.departments = data);
     }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void { }
 
     onModeChange() {
         this.isRegistering = !this.isRegistering;
@@ -64,8 +63,10 @@ export class AuthComponent implements OnInit{
             email: this.loginForm.value.email ?? '',
             password: this.loginForm.value.password ?? ''
         }
-        this.authService.authLoginPost({body: loginDto})
-            .subscribe((data) => console.log(data), err => {
+        this.authService.authLoginPost$Json({body: loginDto})
+            .subscribe((token) => {
+                localStorage.setItem('token', token);
+            }, err => {
                 this.loginForm.reset({email: loginDto.email ,password: ''});
                 this.isLoginValid = false;
             });
@@ -73,6 +74,7 @@ export class AuthComponent implements OnInit{
 
     onRegisterSubmit() {
         console.log(this.registerForm);
+        console.log(this.departments);
         this.authService.authRegistrationPost({body: this.registerForm}).subscribe(_ => {
             this.isVerifyingMail = true;
             this.authService.authEmailPost({email: this.registerForm.email})
@@ -82,8 +84,7 @@ export class AuthComponent implements OnInit{
 
     onVerifySubmit() {
         this.authService.authVerifyPut({email: this.registerForm.email, code: this.emailCode})
-            .subscribe(_ => console.log("Verified"));
+            .subscribe(_ => this.onLoginSubmit());
         this.router.navigate([""], {relativeTo: this.route})
     }
-
 }

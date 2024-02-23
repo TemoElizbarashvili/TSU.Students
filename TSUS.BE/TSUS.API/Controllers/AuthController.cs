@@ -44,13 +44,19 @@ public class AuthController(IUnitOfWork uow, IMailService mailService) : Control
         if (!BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
             return BadRequest(error: "Email or password is incorrect!");
         var token = _unitOfWork.UserRepository.CreateToken(user);
-
+        Response.Cookies.Append("jwtToken", token, new CookieOptions
+        {
+            HttpOnly = true
+        });
         return Ok(token);
     }
 
     [HttpPost("Email")]
     public async Task<IActionResult> SendEmail(string email)
     {
+        var user = await _unitOfWork.UserRepository.GetByEmailAsync(email);
+        if (user == null)
+            return BadRequest("This mail is not exists in our application!");
         var code = GetVerificationCode();
         var result = await _mailService.SendVerifyMail(code, email);
         if (result == false)

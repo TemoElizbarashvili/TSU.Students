@@ -7,12 +7,12 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface AuthRequestPasswordResetGet$Params {
+export interface AuthRequestPasswordResetGet$Json$Params {
   email?: string;
 }
 
-export function authRequestPasswordResetGet(http: HttpClient, rootUrl: string, params?: AuthRequestPasswordResetGet$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
-  const rb = new RequestBuilder(rootUrl, authRequestPasswordResetGet.PATH, 'get');
+export function authRequestPasswordResetGet$Json(http: HttpClient, rootUrl: string, params?: AuthRequestPasswordResetGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+  const rb = new RequestBuilder(rootUrl, authRequestPasswordResetGet$Json.PATH, 'get');
   if (params) {
     rb.query('email', params.email, {});
   }
@@ -27,4 +27,4 @@ export function authRequestPasswordResetGet(http: HttpClient, rootUrl: string, p
   );
 }
 
-authRequestPasswordResetGet.PATH = '/Auth/RequestPasswordReset';
+authRequestPasswordResetGet$Json.PATH = '/Auth/RequestPasswordReset';

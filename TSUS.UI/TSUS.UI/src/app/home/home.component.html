@@ -1,0 +1,13 @@
+@if(notVerified){
+    <div class="pop_up">
+        <form class="form ver-form" (submit)="onVerifySubmit()">
+            <p class="text">We sent you 6 digit code to - {{ clientService.client.mail }}</p>
+            <label for="code">Your Code</label>
+            <input type="number" class="input" placeholder="Code" name="code" required [(ngModel)]="emailCode" #code="ngModel" min=100000 max=999999>
+            <button type="submit" class="submit_button ver" [disabled]="code.invalid">Verify</button>
+        </form>
+    </div>
+} 
+@else {
+
+}

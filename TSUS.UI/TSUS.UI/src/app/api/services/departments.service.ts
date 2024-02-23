@@ -12,8 +12,8 @@ import { StrictHttpResponse } from '../strict-http-response';
 import { DepartmentRm } from '../models/department-rm';
 import { departmentsAddPost } from '../fn/departments/departments-add-post';
 import { DepartmentsAddPost$Params } from '../fn/departments/departments-add-post';
-import { departmentsGet } from '../fn/departments/departments-get';
-import { DepartmentsGet$Params } from '../fn/departments/departments-get';
+import { departmentsGet$Json } from '../fn/departments/departments-get-json';
+import { DepartmentsGet$Json$Params } from '../fn/departments/departments-get-json';
 import { departmentsGet$Plain } from '../fn/departments/departments-get-plain';
 import { DepartmentsGet$Plain$Params } from '../fn/departments/departments-get-plain';
 
@@ -50,22 +50,22 @@ export class DepartmentsService extends BaseService {
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `departmentsGet()` instead.
+   * To access only the response body, use `departmentsGet$Json()` instead.
    *
    * This method doesn't expect any request body.
    */
-  departmentsGet$Response(params?: DepartmentsGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DepartmentRm>>> {
-    return departmentsGet(this.http, this.rootUrl, params, context);
+  departmentsGet$Json$Response(params?: DepartmentsGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DepartmentRm>>> {
+    return departmentsGet$Json(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `departmentsGet$Response()` instead.
+   * To access the full response (for headers, for example), `departmentsGet$Json$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  departmentsGet(params?: DepartmentsGet$Params, context?: HttpContext): Observable<Array<DepartmentRm>> {
-    return this.departmentsGet$Response(params, context).pipe(
+  departmentsGet$Json(params?: DepartmentsGet$Json$Params, context?: HttpContext): Observable<Array<DepartmentRm>> {
+    return this.departmentsGet$Json$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<DepartmentRm>>): Array<DepartmentRm> => r.body)
     );
   }

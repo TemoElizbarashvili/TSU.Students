@@ -10,7 +10,6 @@ using TSUS.Domain.Entities;
 using TSUS.Infrastructure.Repositories.Contracts;
 using TSUS.Infrastructure.ControlFlags;
 using TSUS.Domain.Dtos;
-using TSUS.Infrastructure.Services.contracts;
 
 namespace TSUS.Infrastructure.Repositories;
 
@@ -70,9 +69,11 @@ public class UserRepository(TsusDbContext dbContext, IConfiguration configuratio
     {
         List<Claim> claims =
         [
+            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
             new Claim(ClaimTypes.Name, user.UserName),
             new Claim(ClaimTypes.Role, Enum.GetName(user.Role.GetType(), user.Role)!),
-            new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.AuthenticationInstant, user.IsVerified.ToString())
         ];
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JwtSettings:Key").Value!));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
