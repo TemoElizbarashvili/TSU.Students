@@ -3,15 +3,15 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, RouterModule, RouterOutlet } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
-import { AuthService, DepartmentsService } from "../api/services";
-import { BaseControlFlags, DepartmentRm, LoginDto, RegistrationDto } from "../api/models";
+import { AuthService, DepartmentsService, UsersService } from "../../api/services";
+import { BaseControlFlags, DepartmentRm, LoginDto, RegistrationDto, UserInfoRm } from "../../api/models";
 
 @Component({
     selector: 'auth',
     standalone: true,
     imports: [CommonModule, RouterOutlet, ReactiveFormsModule, FormsModule, HttpClientModule, RouterModule],
     templateUrl: './auth.component.html',
-    providers: [DepartmentsService, AuthService],
+    providers: [DepartmentsService, AuthService, UsersService],
     styleUrl: './auth.component.scss'
   })
 export class AuthComponent implements OnInit {
@@ -32,7 +32,7 @@ export class AuthComponent implements OnInit {
     departments: DepartmentRm[] = [];
     emailCode: number = 0;
 
-    constructor(private formBuilder: FormBuilder, private departmentService: DepartmentsService, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
+    constructor(private formBuilder: FormBuilder, private departmentService: DepartmentsService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private userService: UsersService) {
         this.departmentService.departmentsGet$Json({controlFlags: BaseControlFlags.$0})
             .subscribe((data: DepartmentRm[]) => this.departments = data);
     }
@@ -66,6 +66,18 @@ export class AuthComponent implements OnInit {
         this.authService.authLoginPost$Json({body: loginDto})
             .subscribe((token) => {
                 localStorage.setItem('token', token);
+                this.userService.usersUserInfoGet$Json()
+                    .subscribe((data: UserInfoRm) => {
+                        if(data.isVerified == false) {
+                            console.log(data);
+                            this.isRegistering = !this.isRegistering;
+                            this.isVerifyingMail = true;
+                            this.authService.authEmailPost({email: loginDto.email}).subscribe(_ => (console.log("sent")), err => console.error(err));
+                        } else {
+                            this.router.navigate([''], {relativeTo: this.route})
+                        }
+                    });
+                
             }, err => {
                 this.loginForm.reset({email: loginDto.email ,password: ''});
                 this.isLoginValid = false;
@@ -84,7 +96,7 @@ export class AuthComponent implements OnInit {
 
     onVerifySubmit() {
         this.authService.authVerifyPut({email: this.registerForm.email, code: this.emailCode})
-            .subscribe(_ => this.onLoginSubmit());
-        this.router.navigate([""], {relativeTo: this.route})
+            .subscribe(_ => this.router.navigate([""], {relativeTo: this.route}));
+        
     }
 }

@@ -16,6 +16,7 @@ public class TsusDbContext : DbContext
     public DbSet<Subject> Subjects => Set<Subject>();
     public DbSet<Video> Videos => Set<Video>();
     public DbSet<VerifyCodes> VerifyCodes => Set<VerifyCodes>();
+    public DbSet<ProfilePictures> ProfilePictures => Set<ProfilePictures>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

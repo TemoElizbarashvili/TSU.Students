@@ -51,7 +51,7 @@ public class AuthController(IUnitOfWork uow, IMailService mailService) : Control
         return Ok(token);
     }
 
-    [HttpPost("Email")]
+    [HttpPost("Send-mail")]
     public async Task<IActionResult> SendEmail(string email)
     {
         var user = await _unitOfWork.UserRepository.GetByEmailAsync(email);
@@ -60,7 +60,7 @@ public class AuthController(IUnitOfWork uow, IMailService mailService) : Control
         var code = GetVerificationCode();
         var result = await _mailService.SendVerifyMail(code, email);
         if (result == false)
-            return BadRequest("Something went wrong, please try again.");
+            return BadRequest("Something went wrong while sending mail, please try again.");
         try
         {
             await _unitOfWork.VerifyCodeRepository.AddSingleAsync(

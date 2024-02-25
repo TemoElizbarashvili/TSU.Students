@@ -5,7 +5,7 @@ namespace TSUS.Domain.Entities;
 
 public class ProfilePictures
 {
-    public int ProfilePictureId { get; set; }
+    public int ProfilePicturesId { get; set; }
     [StringLength(50)]
     public string Type { get; set; } = default!;
     public byte[] Data { get; set; } = default!;

@@ -12,7 +12,6 @@ using TSUS.Infrastructure.UOW.Contract;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -35,7 +34,6 @@ builder.Services.AddDbContext<TsusDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -53,6 +51,7 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Development Server",
         Url = "https://localhost:7078"
     });
+    c.CustomOperationIds(e => e.ActionDescriptor.RouteValues["action"] + e.ActionDescriptor.RouteValues["controller"]);
 });
 
 
@@ -65,8 +64,6 @@ var app = builder.Build();
 var dbContext = app.Services.CreateScope().ServiceProvider.GetService<TsusDbContext>();
 dbContext?.Database?.EnsureCreated();
 
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

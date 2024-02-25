@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -17,10 +17,12 @@ import { DepartmentsService } from './api/services';
     multi: true
   }]
 })
-export class AppComponent implements OnInit {
-  title = 'TSUS.UI';
-
+export class AppComponent implements OnInit, OnDestroy {
   constructor(private departmentService: DepartmentsService) { }
-  ngOnInit(): void {
+
+  ngOnInit(): void { }
+
+  ngOnDestroy(): void {
+    localStorage.clear();
   }
 }

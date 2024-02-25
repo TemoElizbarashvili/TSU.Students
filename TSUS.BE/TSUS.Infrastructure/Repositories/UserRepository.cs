@@ -2,7 +2,6 @@
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using TSUS.Domain.DataBase;
@@ -97,5 +96,4 @@ public class UserRepository(TsusDbContext dbContext, IConfiguration configuratio
         user.IsVerified = true;
         _context.Users.Update(user);
     }
-
 }

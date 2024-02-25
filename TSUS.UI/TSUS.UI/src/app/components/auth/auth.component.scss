@@ -1,9 +1,9 @@
-@import "../../global_styles/colors";
+@import "../../../global_styles/colors";
 
 .background {
     height: 100vh;
     width: 100%;
-    background-image: url('../../assets/images/TSU_Building.jpg');
+    background-image: url('../../../assets/images/TSU_Building.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -149,4 +149,3 @@ label {
   background-color: #000000;
   color: #fff;
 }
-
